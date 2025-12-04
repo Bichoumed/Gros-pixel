@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>3FA Security Trainer - Retro Edition</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="logo">3FA ARCADE</div>
+    <nav class="main-nav">
+      <a href="#home">HOME</a>
+      <a href="#3fa">3FA</a>
+      <a href="#crypto">CRYPTO</a>
+      <a href="#network">NETWORK</a>
+      <a href="#phishing">PHISHING</a>
+      <button id="start-quiz" class="btn">▶ QUIZ</button>
+    </nav>
+  </header>
+  
+  <main>
+    <!-- Décoration gauche - Mario style -->
+    <div class="side-decoration left">
+      <div class="pixel-character">
+        <div class="mario-head"></div>
+        <div class="mario-body"></div>
+      </div>
+      <div class="pixel-character mushroom">
+        <div class="mushroom-cap"></div>
+        <div class="mushroom-stem"></div>
+      </div>
+      <div class="floating-coin">★</div>
+      <div class="floating-coin">◆</div>
+    </div>
+    
+    <!-- Décoration droite - Pac-Man & Space Invader -->
+    <div class="side-decoration right">
+      <div class="pixel-character pacman"></div>
+      <div class="pixel-character ghost"></div>
+      <div class="pixel-character invader">
+        <div class="invader-body"></div>
+      </div>
+      <div class="floating-coin">♥</div>
+      <div class="floating-coin">▲</div>
+    </div>
+    
+    <section id="home" class="hero">
+      <h1>3FA SECURITY TRAINER</h1>
+      <p>Bienvenue dans ton mini-projet de cybersécurité. Cette application t'explique les risques liés aux mots de passe faibles, au vol de comptes et à la mauvaise utilisation de l'authentification, puis te montre comment te protéger grâce au Three-Factor Authentication (3FA).</p>
+      <div class="cta">
+        <a href="#3fa" class="btn">COMPRENDRE 3FA</a>
+        <button id="start-quiz-2" class="btn">▶ START QUIZ</button>
+      </div>
+    </section>
+    
+    <section id="3fa" class="card">
+      <h2>3FA — DANGERS & PROTECTION</h2>
+      <p>Vol de mots de passe, phishing, attaques par force brute, fuite de données… un seul facteur d'authentification n'est plus suffisant.</p>
+      <h3 style="color: #00ff41; margin-top: 15px;">PROTECTION</h3>
+      <p>Le 3FA combine plusieurs preuves (mot de passe, appareil, biométrie) pour rendre l'attaque beaucoup plus difficile pour un attaquant.</p>
+    </section>
+    
+    <section id="crypto" class="card">
+      <h2>CRYPTOGRAPHIE</h2>
+      <p>Comprends comment les messages et données sont protégés grâce aux techniques de cryptographie et pourquoi c'est essentiel pour la sécurité.</p>
+      <p>Teste ensuite tes connaissances avec un quiz sur les bases du chiffrement.</p>
+    </section>
+    
+    <section id="phishing" class="card">
+      <h2>PHISHING</h2>
+      <p>Apprends à identifier les e-mails, SMS ou sites frauduleux conçus pour voler tes informations personnelles. Un quiz te permet de reconnaître les tentatives de phishing courantes.</p>
+    </section>
+    
+    <section id="network" class="card">
+      <h2>SÉCURITÉ RÉSEAU</h2>
+      <p>Comprends les bases de la sécurité des réseaux, pare-feu, VPN, Wi-Fi sécurisé et menaces réseau courantes. Teste tes connaissances avec un quiz sur la sécurisation des connexions réseau.</p>
+    </section>
+  </main>
+  
+  <!-- Quiz modal -->
+  <div id="quiz-modal" class="modal hidden">
+    <div class="modal-content">
+      <button id="close-quiz" class="close">×</button>
+      <h2 id="quiz-title">▼ QUIZ — 3FA SECURITY ▼</h2>
+      <div id="quiz-info" class="quiz-info">
+        <div>QUESTION <span id="q-index">1</span>/<span id="q-count">1</span></div>
+        <div>TEMPS: <span id="timer">30</span>S</div>
+        <div>SCORE: <span id="score">0</span></div>
+      </div>
+      <div id="question-container" class="question-container">
+        <p id="question-text">Question text</p>
+        <div id="choices" class="choices"></div>
+      </div>
+      <div class="quiz-actions">
+        <button id="next-btn" class="btn">SUIVANT ▶</button>
+        <button id="end-quiz" class="btn btn-secondary hidden">FIN ✕</button>
+      </div>
+      <div id="result" class="result hidden"></div>
+    </div>
+  </div>
+  
+  <footer class="site-footer">
+    <small>© 2025 3FA SECURITY TRAINER — RETRO EDITION — PRESS START</small>
+  </footer>
+  
+  <script src="script.js"></script>
+</body>
+</html>
