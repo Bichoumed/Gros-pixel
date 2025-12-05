@@ -517,19 +517,19 @@ function showRetroGameScreen(isVictory) {
                       position: absolute; left: 26px; border: 2px solid #666;"></div>
           <div id="flag" style="position: absolute; top: 0; left: 34px; 
                                animation: flagRise 2s ease-out forwards;">
-            <div style="width: 40px; height: 30px; background: var(--retro-accent); 
+            <div style="width: 40px; height: 30px; background: #00ff41; 
                         border: 3px solid #00cc33; position: relative;">
               <div style="position: absolute; top: 5px; left: 5px; right: 5px; bottom: 5px; 
                           border: 2px solid #00ff44;"></div>
             </div>
           </div>
         </div>
-        <div style="font-family: 'Press Start 2P', monospace; color: var(--retro-accent); 
-                    font-size: 28px; text-shadow: 4px 4px 0 #000, 6px 6px 0 var(--retro-secondary); 
+        <div style="font-family: 'Press Start 2P', monospace; color: #00ff41; 
+                    font-size: 28px; text-shadow: 4px 4px 0 #000, 6px 6px 0 #ff006e; 
                     margin-bottom: 20px; animation: textBlink 0.5s infinite;">
           BRAVO!
         </div>
-        <div style="font-family: 'Press Start 2P', monospace; color: var(--retro-yellow); 
+        <div style="font-family: 'Press Start 2P', monospace; color: #ffee00; 
                     font-size: 14px; margin-top: 20px; line-height: 2;">
           MISSION ACCOMPLIE!<br>
           SECURITE: 100%
@@ -544,15 +544,15 @@ function showRetroGameScreen(isVictory) {
           💀
         </div>
         <div style="position: relative; margin-bottom: 30px;">
-          <div style="font-family: 'Press Start 2P', monospace; color: var(--retro-secondary); 
+          <div style="font-family: 'Press Start 2P', monospace; color: #ff006e; 
                       font-size: 36px; text-shadow: 4px 4px 0 #000, 6px 6px 0 #660000; 
                       animation: glitchText 0.3s infinite;">
             GAME OVER
           </div>
-          <div style="width: 300px; height: 4px; background: var(--retro-secondary); 
+          <div style="width: 300px; height: 4px; background: #ff006e; 
                       margin: 20px auto; animation: lineExpand 1s ease-out;"></div>
         </div>
-        <div style="font-family: 'Press Start 2P', monospace; color: var(--muted); 
+        <div style="font-family: 'Press Start 2P', monospace; color: #a0a0a0; 
                     font-size: 12px; margin-top: 20px; line-height: 2;">
           ESSAYEZ ENCORE<br>
           CONTINUE?
@@ -570,7 +570,9 @@ function showRetroGameScreen(isVictory) {
   }, 4000);
 }
 
-// Animations CSS
+// ==========================
+// ANIMATIONS CSS POUR L'ÉCRAN DE JEU
+// ==========================
 const style = document.createElement('style');
 style.textContent = `
   @keyframes fadeInScreen {

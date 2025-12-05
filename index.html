@@ -7,92 +7,113 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <!-- Floating pixels decoration -->
-  <div class="pixel-float" style="left: 10%; animation-delay: 0s;"></div>
-  <div class="pixel-float" style="left: 30%; animation-delay: 1s; background: var(--retro-blue);"></div>
-  <div class="pixel-float" style="left: 50%; animation-delay: 2s; background: var(--retro-yellow);"></div>
-  <div class="pixel-float" style="left: 70%; animation-delay: 1.5s; background: var(--retro-secondary);"></div>
-  <div class="pixel-float" style="left: 90%; animation-delay: 0.5s;"></div>
+  <!-- 3D Computer Container -->
+  <div class="computer-3d">
+    <!-- Computer Base -->
+    <div class="computer-base"></div>
+    
+    <!-- Computer Screen -->
+    <div class="computer-screen">
+      <div class="screen-frame">
+        <div class="screen-content">
+          <!-- Floating pixels decoration -->
+          <div class="pixel-float" style="left: 10%; animation-delay: 0s;"></div>
+          <div class="pixel-float" style="left: 30%; animation-delay: 1s; background: var(--retro-blue);"></div>
+          <div class="pixel-float" style="left: 50%; animation-delay: 2s; background: var(--retro-yellow);"></div>
+          <div class="pixel-float" style="left: 70%; animation-delay: 1.5s; background: var(--retro-secondary);"></div>
+          <div class="pixel-float" style="left: 90%; animation-delay: 0.5s;"></div>
 
-  <header class="site-header">
-    <div class="logo">3FA ARCADE</div>
-    <nav class="main-nav">
-      <a href="#home" class="nav-link">ACCUEIL</a>
-      <a href="#intro" class="nav-link">INTRODUCTION</a>
-      <a href="#auth" class="nav-link">AUTHENTIFICATION</a>
-      <a href="#crypto" class="nav-link">CRYPTOGRAPHIE</a>
-      <a href="#phishing" class="nav-link">PHISHING</a>
-      <a href="#network" class="nav-link">RÉSEAU</a>
-      <button id="start-quiz-global" class="btn">▶ QUIZ GLOBAL</button>
-    </nav>
-  </header>
+          <!-- Header -->
+          <header class="site-header">
+            <div class="logo">3FA ARCADE</div>
+            <nav class="main-nav">
+              <a href="#home" class="nav-link">ACCUEIL</a>
+              <a href="#intro" class="nav-link">INTRODUCTION</a>
+              <a href="#auth" class="nav-link">AUTHENTIFICATION</a>
+              <a href="#crypto" class="nav-link">CRYPTOGRAPHIE</a>
+              <a href="#phishing" class="nav-link">PHISHING</a>
+              <a href="#network" class="nav-link">RÉSEAU</a>
+              <button id="start-quiz-global" class="btn">▶ QUIZ GLOBAL</button>
+            </nav>
+          </header>
 
-  <main id="main-content">
-    <div id="home-view">
-      <!-- SECTION 1 : Introduction -->
-      <section id="intro" class="card">
-        <h2>🛡️ Introduction à la cybersécurité</h2>
-        <p>Découvre les bases de la cybersécurité et les menaces courantes. Comprends pourquoi protéger tes informations est crucial dans le monde numérique d'aujourd'hui !</p>
-        <button class="btn chapter-btn" data-chapter="1">→ COMMENCER LE COURS</button>
-      </section>
+          <!-- Main Content -->
+          <main id="main-content">
+            <!-- Home View -->
+            <div id="home-view">
+              <!-- SECTION 1 : Introduction -->
+              <section id="intro" class="card">
+                <h2>🛡️ Introduction à la cybersécurité</h2>
+                <p>Découvre les bases de la cybersécurité et les menaces courantes. Comprends pourquoi protéger tes informations est crucial dans le monde numérique d'aujourd'hui !</p>
+                <button class="btn chapter-btn" data-chapter="1">→ COMMENCER LE COURS</button>
+              </section>
 
-      <!-- SECTION 2 : Authentification -->
-      <section id="auth" class="card">
-        <h2>🔐 Authentification et 3FA</h2>
-        <p>Explore les différentes méthodes d'authentification, de la simple au triple facteur. Apprends à sécuriser tes comptes efficacement avec les meilleures pratiques.</p>
-        <button class="btn chapter-btn" data-chapter="2">→ COMMENCER LE COURS</button>
-      </section>
+              <!-- SECTION 2 : Authentification -->
+              <section id="auth" class="card">
+                <h2>🔐 Authentification et 3FA</h2>
+                <p>Explore les différentes méthodes d'authentification, de la simple au triple facteur. Apprends à sécuriser tes comptes efficacement avec les meilleures pratiques.</p>
+                <button class="btn chapter-btn" data-chapter="2">→ COMMENCER LE COURS</button>
+              </section>
 
-      <!-- SECTION 3 : Cryptographie -->
-      <section id="crypto" class="card">
-        <h2>🔒 Cryptographie</h2>
-        <p>Comprends comment protéger les messages et données grâce au chiffrement. Découvre les techniques de base et leur importance dans la sécurité moderne.</p>
-        <button class="btn chapter-btn" data-chapter="3">→ COMMENCER LE COURS</button>
-      </section>
+              <!-- SECTION 3 : Cryptographie -->
+              <section id="crypto" class="card">
+                <h2>🔒 Cryptographie</h2>
+                <p>Comprends comment protéger les messages et données grâce au chiffrement. Découvre les techniques de base et leur importance dans la sécurité moderne.</p>
+                <button class="btn chapter-btn" data-chapter="3">→ COMMENCER LE COURS</button>
+              </section>
 
-      <!-- SECTION 4 : Phishing -->
-      <section id="phishing" class="card">
-        <h2>🎣 Phishing et ingénierie sociale</h2>
-        <p>Apprends à détecter les emails, SMS et sites frauduleux conçus pour voler tes informations personnelles. Protège-toi contre les attaques sociales.</p>
-        <button class="btn chapter-btn" data-chapter="4">→ COMMENCER LE COURS</button>
-      </section>
+              <!-- SECTION 4 : Phishing -->
+              <section id="phishing" class="card">
+                <h2>🎣 Phishing et ingénierie sociale</h2>
+                <p>Apprends à détecter les emails, SMS et sites frauduleux conçus pour voler tes informations personnelles. Protège-toi contre les attaques sociales.</p>
+                <button class="btn chapter-btn" data-chapter="4">→ COMMENCER LE COURS</button>
+              </section>
 
-      <!-- SECTION 5 : Sécurité réseau -->
-      <section id="network" class="card">
-        <h2>🌐 Sécurité réseau</h2>
-        <p>Découvre les bases de la sécurité des réseaux : VPN, Wi-Fi sécurisé, pare-feu et bonnes pratiques pour naviguer en toute sécurité.</p>
-        <button class="btn chapter-btn" data-chapter="5">→ COMMENCER LE COURS</button>
-      </section>
+              <!-- SECTION 5 : Sécurité réseau -->
+              <section id="network" class="card">
+                <h2>🌐 Sécurité réseau</h2>
+                <p>Découvre les bases de la sécurité des réseaux : VPN, Wi-Fi sécurisé, pare-feu et bonnes pratiques pour naviguer en toute sécurité.</p>
+                <button class="btn chapter-btn" data-chapter="5">→ COMMENCER LE COURS</button>
+              </section>
+            </div>
+
+            <!-- Chapter View (dynamically populated) -->
+            <div id="chapter-view" class="hidden"></div>
+          </main>
+
+          <!-- Modal Quiz Global -->
+          <div id="quiz-modal" class="modal hidden">
+            <div class="modal-content">
+              <button id="close-quiz" class="close">×</button>
+              <h2 id="quiz-title">▼ QUIZ GLOBAL 3FA ▼</h2>
+              <div id="quiz-info" class="quiz-info">
+                <div>QUESTION <span id="q-index">1</span>/<span id="q-count">1</span></div>
+                <div>TEMPS: <span id="timer">30</span>S</div>
+                <div>SCORE: <span id="score">0</span></div>
+              </div>
+              <div id="question-container" class="question-container">
+                <p id="question-text">Question text</p>
+                <div id="choices" class="choices"></div>
+              </div>
+              <div class="quiz-actions">
+                <button id="next-btn" class="btn">SUIVANT ▶</button>
+                <button id="end-quiz" class="btn btn-secondary hidden">FIN ✕</button>
+              </div>
+              <div id="result" class="result hidden"></div>
+            </div>
+          </div>
+
+          <!-- Footer -->
+          <footer class="site-footer">
+            <small>© 2025 3FA SECURITY TRAINER — RETRO EDITION — PRESS START</small>
+          </footer>
+        </div>
+      </div>
     </div>
-
-    <div id="chapter-view" class="hidden"></div>
-  </main>
-
-  <!-- Modal Quiz Global -->
-  <div id="quiz-modal" class="modal hidden">
-    <div class="modal-content">
-      <button id="close-quiz" class="close">×</button>
-      <h2 id="quiz-title">▼ QUIZ GLOBAL 3FA ▼</h2>
-      <div id="quiz-info" class="quiz-info">
-        <div>QUESTION <span id="q-index">1</span>/<span id="q-count">1</span></div>
-        <div>TEMPS: <span id="timer">30</span>S</div>
-        <div>SCORE: <span id="score">0</span></div>
-      </div>
-      <div id="question-container" class="question-container">
-        <p id="question-text">Question text</p>
-        <div id="choices" class="choices"></div>
-      </div>
-      <div class="quiz-actions">
-        <button id="next-btn" class="btn">SUIVANT ▶</button>
-        <button id="end-quiz" class="btn btn-secondary hidden">FIN ✕</button>
-      </div>
-      <div id="result" class="result hidden"></div>
-    </div>
+    
+    <!-- Computer Keyboard -->
+    <div class="computer-keyboard"></div>
   </div>
-
-  <footer class="site-footer">
-    <small>© 2025 3FA SECURITY TRAINER — RETRO EDITION — PRESS START</small>
-  </footer>
 
   <script src="script.js"></script>
 </body>
