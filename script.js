@@ -42,26 +42,56 @@ function playSound(type) {
       oscillator.stop(audioCtx.currentTime + 0.2);
       break;
     case 'victory':
-      const notes = [523.25, 659.25, 783.99, 1046.50];
-      notes.forEach((freq, i) => {
+      // Son Super Mario Level Complete - Plus fidèle à l'original
+      const victoryMelody = [
+        {freq: 659, time: 0, duration: 0.15},        // Mi
+        {freq: 659, time: 0.15, duration: 0.15},     // Mi
+        {freq: 659, time: 0.3, duration: 0.15},      // Mi
+        {freq: 523, time: 0.5, duration: 0.1},       // Do
+        {freq: 659, time: 0.65, duration: 0.15},     // Mi
+        {freq: 784, time: 0.8, duration: 0.4},       // Sol
+        {freq: 392, time: 1.3, duration: 0.4}        // Sol grave
+      ];
+      victoryMelody.forEach(note => {
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
         osc.connect(gain);
         gain.connect(audioCtx.destination);
-        osc.frequency.value = freq;
-        gain.gain.setValueAtTime(0.3, audioCtx.currentTime + i * 0.15);
-        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + i * 0.15 + 0.2);
-        osc.start(audioCtx.currentTime + i * 0.15);
-        osc.stop(audioCtx.currentTime + i * 0.15 + 0.2);
+        osc.type = 'square';
+        osc.frequency.value = note.freq;
+        gain.gain.setValueAtTime(0.25, audioCtx.currentTime + note.time);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + note.time + note.duration);
+        osc.start(audioCtx.currentTime + note.time);
+        osc.stop(audioCtx.currentTime + note.time + note.duration);
       });
       break;
     case 'fail':
-      oscillator.frequency.value = 300;
-      gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
-      oscillator.start(audioCtx.currentTime);
-      oscillator.frequency.exponentialRampToValueAtTime(50, audioCtx.currentTime + 0.5);
-      gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.6);
-      oscillator.stop(audioCtx.currentTime + 0.6);
+      // Son Super Mario Game Over - Plus fidèle à l'original
+      const gameOverMelody = [
+        {freq: 523, time: 0, duration: 0.25},        // Do
+        {freq: 494, time: 0.25, duration: 0.25},     // Si
+        {freq: 466, time: 0.5, duration: 0.25},      // La#
+        {freq: 440, time: 0.75, duration: 0.4},      // La
+        {freq: 349, time: 1.2, duration: 0.25},      // Fa
+        {freq: 440, time: 1.5, duration: 0.25},      // La
+        {freq: 392, time: 1.8, duration: 0.25},      // Sol
+        {freq: 349, time: 2.1, duration: 0.25},      // Fa
+        {freq: 330, time: 2.4, duration: 0.25},      // Mi
+        {freq: 294, time: 2.7, duration: 0.25},      // Ré
+        {freq: 262, time: 3.0, duration: 0.6}        // Do
+      ];
+      gameOverMelody.forEach(note => {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.type = 'square';
+        osc.frequency.value = note.freq;
+        gain.gain.setValueAtTime(0.25, audioCtx.currentTime + note.time);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + note.time + note.duration);
+        osc.start(audioCtx.currentTime + note.time);
+        osc.stop(audioCtx.currentTime + note.time + note.duration);
+      });
       break;
   }
 }
@@ -217,10 +247,8 @@ function loadChapter(id) {
     </div>
   `;
 
-  // Scroll to top
   window.scrollTo({ top: 0, behavior: 'smooth' });
 
-  // Event listeners
   document.getElementById('back-home').addEventListener('click', () => {
     playSound('click');
     chapterView.classList.add('hidden');
@@ -310,6 +338,7 @@ let current = 0;
 let score = 0;
 let timer = null;
 let timeLeft = 30;
+let birdInterval = null;
 
 const modal = document.getElementById('quiz-modal');
 const closeBtn = document.getElementById('close-quiz');
@@ -334,12 +363,14 @@ function openQuiz() {
   modal.classList.remove('hidden');
   resetQuiz();
   renderQuestion();
+  startBirdAnimation();
 }
 
 function closeQuiz() {
   playSound('click');
   modal.classList.add('hidden');
   stopTimer();
+  stopBirdAnimation();
 }
 
 startBtnGlobal.addEventListener('click', openQuiz);
@@ -378,7 +409,6 @@ function onChoice(e) {
   const idx = Number(e.currentTarget.dataset.index);
   const correctIdx = questions[current].a;
   
-  // Désactiver tous les boutons
   Array.from(choicesEl.children).forEach(ch => {
     ch.disabled = true;
     ch.style.cursor = 'not-allowed';
@@ -406,7 +436,6 @@ nextBtn.addEventListener('click', () => {
   playSound('click');
   stopTimer();
   
-  // Si aucun choix n'a été fait, marquer comme incorrect
   const hasAnswered = Array.from(choicesEl.children).every(c => c.disabled);
   if (!hasAnswered) {
     const correctIdx = questions[current].a;
@@ -417,7 +446,6 @@ nextBtn.addEventListener('click', () => {
     Array.from(choicesEl.children).forEach(ch => ch.disabled = true);
   }
   
-  // Passer à la question suivante ou afficher résultats
   if (current < questions.length - 1) {
     current++;
     renderQuestion();
@@ -462,11 +490,12 @@ function stopTimer() {
 
 function showResults() {
   stopTimer();
+  stopBirdAnimation();
   nextBtn.classList.add('hidden');
   endBtn.classList.remove('hidden');
   
   const percentage = (score / questions.length) * 100;
-  const passed = score >= 3; // Score minimum 3/6
+  const passed = score >= 3;
   
   if (passed) {
     playSound('victory');
@@ -487,10 +516,60 @@ function showResults() {
 }
 
 // ==========================
+// ANIMATION DES OISEAUX PENDANT LE QUIZ
+// ==========================
+function startBirdAnimation() {
+  stopBirdAnimation();
+  
+  // Créer un oiseau immédiatement
+  createFlyingBird();
+  
+  // Puis un oiseau toutes les 3 secondes
+  birdInterval = setInterval(() => {
+    createFlyingBird();
+  }, 3000);
+}
+
+function stopBirdAnimation() {
+  if (birdInterval) {
+    clearInterval(birdInterval);
+    birdInterval = null;
+  }
+  // Supprimer tous les oiseaux existants
+  document.querySelectorAll('.flying-bird').forEach(bird => bird.remove());
+}
+
+function createFlyingBird() {
+  const bird = document.createElement('div');
+  bird.className = 'flying-bird';
+  bird.textContent = '🦅';
+  
+  const size = Math.random() * 20 + 30; // Taille entre 30px et 50px (plus petits)
+  const topPosition = Math.random() * 70 + 10; // Position entre 10% et 80%
+  const duration = Math.random() * 2 + 4; // Durée entre 4s et 6s
+  
+  bird.style.cssText = `
+    position: fixed;
+    font-size: ${size}px;
+    left: -80px;
+    top: ${topPosition}%;
+    z-index: 9999;
+    animation: flyBirdLeftToRight ${duration}s linear;
+    pointer-events: none;
+    filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
+    transform: scaleX(-1);
+  `;
+  
+  document.body.appendChild(bird);
+  
+  // Supprimer l'oiseau après l'animation
+  setTimeout(() => bird.remove(), duration * 1000 + 100);
+}
+
+// ==========================
 // ÉCRAN RÉTRO GAME (VICTOIRE/DÉFAITE)
 // ==========================
 function showRetroGameScreen(isVictory) {
-  // Créer l'overlay
   const overlay = document.createElement('div');
   overlay.id = 'retro-game-screen';
   overlay.style.cssText = `
@@ -506,56 +585,67 @@ function showRetroGameScreen(isVictory) {
   `;
   
   if (isVictory) {
-    // VICTOIRE - Style Super Mario
+    // VICTOIRE - Drapeau qui monte style Super Mario
     overlay.innerHTML = `
       <div style="text-align: center;">
-        <div id="mario-char" style="font-size: 80px; margin-bottom: 20px;">
-          <span style="display: inline-block; animation: marioJump 0.6s ease-in-out infinite;">🕹️</span>
-        </div>
-        <div id="flag-pole" style="position: relative; width: 60px; height: 300px; margin: 0 auto 30px;">
-          <div style="width: 8px; height: 100%; background: linear-gradient(180deg, #888 0%, #888 100%); 
-                      position: absolute; left: 26px; border: 2px solid #666;"></div>
-          <div id="flag" style="position: absolute; top: 0; left: 34px; 
-                               animation: flagRise 2s ease-out forwards;">
-            <div style="width: 40px; height: 30px; background: var(--retro-accent); 
-                        border: 3px solid #00cc33; position: relative;">
-              <div style="position: absolute; top: 5px; left: 5px; right: 5px; bottom: 5px; 
-                          border: 2px solid #00ff44;"></div>
+        <div style="position: relative; width: 80px; height: 450px; margin: 0 auto 40px;">
+          <!-- Poteau -->
+          <div style="width: 12px; height: 100%; background: linear-gradient(180deg, #666 0%, #333 100%); 
+                      position: absolute; left: 34px; border: 2px solid #222; 
+                      box-shadow: inset 0 0 10px rgba(0,0,0,0.5), 2px 2px 8px rgba(0,0,0,0.7);"></div>
+          
+          <!-- Drapeau qui monte -->
+          <div id="flag" style="position: absolute; top: 400px; left: 46px; 
+                               animation: flagClimbUp 2s ease-out forwards;">
+            <div style="width: 70px; height: 50px; 
+                        background: linear-gradient(135deg, #00ff41 0%, #00dd33 50%, #00bb22 100%); 
+                        border: 4px solid #009922; 
+                        position: relative; 
+                        box-shadow: 4px 4px 15px rgba(0,255,65,0.6);
+                        clip-path: polygon(0 0, 85% 0, 100% 50%, 85% 100%, 0 100%);">
+              <div style="position: absolute; top: 10px; left: 10px; right: 20px; bottom: 10px; 
+                          border: 3px solid rgba(255,255,255,0.5); border-radius: 3px;"></div>
             </div>
           </div>
         </div>
-        <div style="font-family: 'Press Start 2P', monospace; color: var(--retro-accent); 
-                    font-size: 28px; text-shadow: 4px 4px 0 #000, 6px 6px 0 var(--retro-secondary); 
-                    margin-bottom: 20px; animation: textBlink 0.5s infinite;">
+        
+        <div style="font-family: 'Press Start 2P', monospace; color: #00ff41; 
+                    font-size: 48px; text-shadow: 6px 6px 0 #000, 8px 8px 0 #004400; 
+                    margin-bottom: 30px; animation: textGlow 1s infinite; letter-spacing: 3px;">
           BRAVO!
         </div>
-        <div style="font-family: 'Press Start 2P', monospace; color: var(--retro-yellow); 
-                    font-size: 14px; margin-top: 20px; line-height: 2;">
-          MISSION ACCOMPLIE!<br>
-          SECURITE: 100%
+        
+        <div style="font-family: 'Press Start 2P', monospace; color: #ffee00; 
+                    font-size: 18px; margin-top: 20px; line-height: 2.8; 
+                    text-shadow: 3px 3px 0 #000; animation: pulse 2s infinite;">
+          ★ MISSION ACCOMPLIE! ★<br>
+          EXPERT EN SECURITE
         </div>
       </div>
     `;
   } else {
-    // DÉFAITE - Style Game Over
+    // DÉFAITE - Style rétrogaming pur
     overlay.innerHTML = `
       <div style="text-align: center;">
-        <div style="font-size: 80px; margin-bottom: 30px; animation: fallDown 1s ease-in;">
-          💀
-        </div>
-        <div style="position: relative; margin-bottom: 30px;">
-          <div style="font-family: 'Press Start 2P', monospace; color: var(--retro-secondary); 
-                      font-size: 36px; text-shadow: 4px 4px 0 #000, 6px 6px 0 #660000; 
-                      animation: glitchText 0.3s infinite;">
+        <div style="position: relative; margin-bottom: 50px;">
+          <div style="font-family: 'Press Start 2P', monospace; color: #ff0066; 
+                      font-size: 52px; text-shadow: 6px 6px 0 #000, 8px 8px 0 #660000; 
+                      animation: glitchShake 0.3s infinite; letter-spacing: 6px;">
             GAME OVER
           </div>
-          <div style="width: 300px; height: 4px; background: var(--retro-secondary); 
-                      margin: 20px auto; animation: lineExpand 1s ease-out;"></div>
+          
+          <div style="width: 400px; height: 8px; 
+                      background: linear-gradient(90deg, transparent 0%, #ff0066 20%, #ff0066 80%, transparent 100%); 
+                      margin: 30px auto; 
+                      animation: lineGrow 1.2s ease-out;
+                      box-shadow: 0 0 20px #ff0066, 0 0 40px #ff0066;"></div>
         </div>
-        <div style="font-family: 'Press Start 2P', monospace; color: var(--muted); 
-                    font-size: 12px; margin-top: 20px; line-height: 2;">
-          ESSAYEZ ENCORE<br>
-          CONTINUE?
+        
+        <div style="font-family: 'Press Start 2P', monospace; color: #888; 
+                    font-size: 16px; margin-top: 40px; line-height: 3; 
+                    animation: blinkSlow 1.5s infinite; text-shadow: 2px 2px 0 #000;">
+          ▼ PRESS START ▼<br>
+          TO CONTINUE
         </div>
       </div>
     `;
@@ -570,12 +660,25 @@ function showRetroGameScreen(isVictory) {
   }, 4000);
 }
 
-// Animations CSS
+// ==========================
+// ANIMATIONS CSS
+// ==========================
 const style = document.createElement('style');
 style.textContent = `
+  @keyframes flyBirdLeftToRight {
+    0% { 
+      left: -80px; 
+      transform: scaleX(-1) translateY(0);
+    }
+    100% { 
+      left: 110vw; 
+      transform: scaleX(-1) translateY(-30px);
+    }
+  }
+  
   @keyframes fadeInScreen {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from { opacity: 0; transform: scale(0.85); }
+    to { opacity: 1; transform: scale(1); }
   }
   
   @keyframes fadeOutScreen {
@@ -583,36 +686,41 @@ style.textContent = `
     to { opacity: 0; }
   }
   
-  @keyframes marioJump {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-30px); }
+  @keyframes flagClimbUp {
+    0% { top: 400px; }
+    100% { top: 0; }
   }
   
-  @keyframes flagRise {
-    from { top: 270px; }
-    to { top: 0; }
+  @keyframes textGlow {
+    0%, 100% { 
+      text-shadow: 6px 6px 0 #000, 8px 8px 0 #004400, 0 0 30px #00ff41; 
+    }
+    50% { 
+      text-shadow: 6px 6px 0 #000, 8px 8px 0 #004400, 0 0 50px #00ff41, 0 0 80px #00ff41; 
+    }
   }
   
-  @keyframes textBlink {
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.05); opacity: 0.9; }
+  }
+  
+  @keyframes glitchShake {
+    0%, 100% { transform: translate(0, 0); filter: hue-rotate(0deg); }
+    20% { transform: translate(-4px, 3px); filter: hue-rotate(90deg); }
+    40% { transform: translate(4px, -3px); filter: hue-rotate(180deg); }
+    60% { transform: translate(-3px, -4px); filter: hue-rotate(270deg); }
+    80% { transform: translate(3px, 4px); filter: hue-rotate(360deg); }
+  }
+  
+  @keyframes lineGrow {
+    0% { width: 0; opacity: 0; }
+    100% { width: 400px; opacity: 1; }
+  }
+  
+  @keyframes blinkSlow {
     0%, 100% { opacity: 1; }
-    50% { opacity: 0.5; }
-  }
-  
-  @keyframes fallDown {
-    from { transform: translateY(-200px) rotate(0deg); opacity: 0; }
-    to { transform: translateY(0) rotate(360deg); opacity: 1; }
-  }
-  
-  @keyframes glitchText {
-    0%, 100% { transform: translate(0); }
-    25% { transform: translate(-3px, 2px); }
-    50% { transform: translate(3px, -2px); }
-    75% { transform: translate(-2px, -2px); }
-  }
-  
-  @keyframes lineExpand {
-    from { width: 0; }
-    to { width: 300px; }
+    50% { opacity: 0.3; }
   }
 `;
 document.head.appendChild(style);
